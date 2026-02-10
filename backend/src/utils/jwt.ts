@@ -8,5 +8,5 @@ export const generateToken = (payload: { customerId: string; email: string }): s
         throw new Error('JWT_SECRET is not defined');
     }
 
-    return jwt.sign(payload, secret, { expiresIn });
+    return jwt.sign(payload, secret, { expiresIn } as jwt.SignOptions);
 };
