@@ -44,8 +44,14 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
     try {
         const { id } = req.params;
 
-        const product = await prisma.product.findUnique({
-            where: { id },
+        // Try searching by ID first, then by slug
+        const product = await prisma.product.findFirst({
+            where: {
+                OR: [
+                    { id: id },
+                    { slug: id }
+                ]
+            },
             include: {
                 category: true
             }
