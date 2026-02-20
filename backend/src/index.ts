@@ -25,7 +25,12 @@ const PORT = 5002;
 // Middleware
 app.use(helmet()); // Security headers
 app.use(cors({
-    origin: true, // Allow all origins in development for network access
+    origin: [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'https://cart-managment-system-2u4hu09uw-ankits-projects-8d5f6fec.vercel.app',
+        'https://cart-managment-system.vercel.app'
+    ],
     credentials: true
 }));
 app.use(express.json({ limit: '10mb' })); // Parse JSON bodies
