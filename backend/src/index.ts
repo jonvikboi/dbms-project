@@ -25,7 +25,7 @@ const PORT = 5002;
 // Middleware
 app.use(helmet()); // Security headers
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: true, // Allow all origins in development for network access
     credentials: true
 }));
 app.use(express.json({ limit: '10mb' })); // Parse JSON bodies
@@ -55,9 +55,10 @@ app.use((req: Request, res: Response) => {
 app.use(errorHandler);
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0' as any, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🔗 Network Access: http://10.158.43.102:${PORT}`);
 });
 
 export default app;
