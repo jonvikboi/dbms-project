@@ -105,25 +105,44 @@ export default function CheckoutPage() {
                     {/* Delivery Address */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Truck className="h-5 w-5" />
-                                Delivery Address
+                            <CardTitle className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Truck className="h-5 w-5" />
+                                    Delivery Details
+                                </div>
+                                <span className="text-xs font-normal text-muted-foreground">{customer?.email}</span>
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
+                            {customer?.email === 'admin@gmail.com' && (
+                                <div className="mb-4 rounded-md bg-amber-50 p-3 text-xs text-amber-800 border border-amber-200">
+                                    <b>Note:</b> You are logged in as the <b>Admin</b>. Orders placed will use the admin shipping profile.
+                                    Logout and login as a customer to use your personal address.
+                                </div>
+                            )}
                             {isLoadingAddresses ? (
                                 <div className="flex items-center gap-2 text-neutral-500">
                                     <Loader2 className="h-4 w-4 animate-spin" />
                                     Loading addresses...
                                 </div>
                             ) : addresses && addresses.length > 0 ? (
-                                <div className="rounded-lg border p-4 bg-neutral-50">
-                                    <p className="font-bold">{customer?.firstName} {customer?.lastName}</p>
-                                    <p className="text-neutral-600 font-medium">{defaultAddress.street}</p>
-                                    <p className="text-neutral-600 font-medium">
-                                        {defaultAddress.city}, {defaultAddress.state} {defaultAddress.zipCode}
-                                    </p>
-                                    <p className="text-neutral-600 font-medium">{defaultAddress.country}</p>
+                                <div className="rounded-lg border p-4 bg-neutral-50 relative">
+                                    <p className="font-bold text-lg">{customer?.firstName} {customer?.lastName}</p>
+                                    <div className="mt-2 space-y-1">
+                                        <p className="text-neutral-600 font-medium">{defaultAddress.street}</p>
+                                        <p className="text-neutral-600 font-medium">
+                                            {defaultAddress.city}, {defaultAddress.state} {defaultAddress.zipCode}
+                                        </p>
+                                        <p className="text-neutral-600 font-medium">{defaultAddress.country}</p>
+                                    </div>
+                                    <Button
+                                        variant="link"
+                                        size="sm"
+                                        className="mt-4 h-auto p-0 text-primary"
+                                        onClick={() => router.push('/profile')}
+                                    >
+                                        Change Address in Profile
+                                    </Button>
                                 </div>
                             ) : (
                                 <div className="text-center py-4">
@@ -182,14 +201,14 @@ export default function CheckoutPage() {
                                 {items.map(item => (
                                     <div key={item.productId} className="flex justify-between text-sm">
                                         <span className="text-neutral-500 line-clamp-1">{item.quantity}x {item.name}</span>
-                                        <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                                        <span className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</span>
                                     </div>
                                 ))}
                             </div>
                             <Separator />
                             <div className="flex justify-between">
                                 <span className="text-neutral-500 font-medium">Subtotal</span>
-                                <span className="font-medium">${total.toFixed(2)}</span>
+                                <span className="font-medium">₹{total.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-neutral-500 font-medium">Shipping</span>
@@ -198,7 +217,7 @@ export default function CheckoutPage() {
                             <Separator />
                             <div className="flex justify-between text-xl font-bold">
                                 <span>Total</span>
-                                <span>${total.toFixed(2)}</span>
+                                <span>₹{total.toFixed(2)}</span>
                             </div>
                         </CardContent>
                         <CardFooter>

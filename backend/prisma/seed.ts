@@ -53,7 +53,7 @@ async function main() {
                 name: 'HyperX Cloud II Gaming Headset',
                 slug: 'hyperx-cloud-ii',
                 description: 'Versatile gaming headset designed for comfort and audio precision.',
-                price: 99.99,
+                price: 7999.00,
                 stock: 50,
                 imageUrl: 'https://images.unsplash.com/photo-1612444530582-fc66183b16f7?q=80&w=1500&auto=format&fit=crop',
                 categoryId: electronics.id
@@ -64,7 +64,7 @@ async function main() {
                 name: 'MacBook Air M2',
                 slug: 'macbook-air-m2',
                 description: 'Strikingly thin and fast so you can work, play, or create anywhere.',
-                price: 1099.00,
+                price: 85000.00,
                 stock: 15,
                 imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1452&auto=format&fit=crop',
                 categoryId: electronics.id
@@ -76,7 +76,7 @@ async function main() {
                 name: 'Premium Cotton Hoodie',
                 slug: 'premium-cotton-hoodie',
                 description: 'An essential hoodie made from heavy-weight brushback cotton fleece.',
-                price: 65.00,
+                price: 2499.00,
                 stock: 100,
                 imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1374&auto=format&fit=crop',
                 categoryId: apparel.id
@@ -87,7 +87,7 @@ async function main() {
                 name: 'Classic White Sneakers',
                 slug: 'classic-white-sneakers',
                 description: 'Minimalist sneakers crafted from full-grain Italian leather.',
-                price: 120.00,
+                price: 4999.00,
                 stock: 40,
                 imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1412&auto=format&fit=crop',
                 categoryId: apparel.id
@@ -99,9 +99,9 @@ async function main() {
                 name: 'Minimalist Ceramic Vase',
                 slug: 'minimalist-ceramic-vase',
                 description: 'Hand-crafted ceramic vase with a matte finish.',
-                price: 45.00,
+                price: 1499.00,
                 stock: 25,
-                imageUrl: 'https://images.unsplash.com/photo-1578500484748-4852e824cd26?q=80&w=1500&auto=format&fit=crop',
+                imageUrl: 'https://images.unsplash.com/photo-1687191883740-869382375bd6?q=80&w=1500&auto=format&fit=crop',
                 categoryId: homeLiving.id
             }
         })
@@ -121,10 +121,10 @@ async function main() {
             addresses: {
                 create: {
                     street: '123 Tech Lane',
-                    city: 'San Francisco',
-                    state: 'CA',
-                    zipCode: '94107',
-                    country: 'USA',
+                    city: 'Mumbai',
+                    state: 'Maharashtra',
+                    zipCode: '400001',
+                    country: 'India',
                     isDefault: true
                 }
             }
@@ -145,10 +145,10 @@ async function main() {
             addresses: {
                 create: {
                     street: '1 Admin Way',
-                    city: 'Admin City',
-                    state: 'AD',
-                    zipCode: '00000',
-                    country: 'ADMIN',
+                    city: 'Delhi',
+                    state: 'DL',
+                    zipCode: '110001',
+                    country: 'India',
                     isDefault: true
                 }
             }

@@ -67,7 +67,7 @@ export function ProductCard({ id, name, price, imageUrl, slug, categoryName }: P
                         </p>
                     )}
                     <h3 className="font-medium text-sm mb-2 line-clamp-2">{name}</h3>
-                    <p className="text-lg font-semibold">${price.toFixed(2)}</p>
+                    <p className="text-lg font-semibold">₹{price.toFixed(2)}</p>
                 </div>
             </motion.div>
         </Link>

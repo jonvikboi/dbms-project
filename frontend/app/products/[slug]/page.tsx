@@ -98,7 +98,7 @@ export default function ProductDetailPage() {
                             {product.category?.name}
                         </Badge>
                         <h1 className="mb-2 text-4xl font-bold tracking-tight">{product.name}</h1>
-                        <p className="text-2xl font-bold text-primary">${Number(product.price).toFixed(2)}</p>
+                        <p className="text-2xl font-bold text-primary">₹{Number(product.price).toFixed(2)}</p>
                     </div>
 
                     <p className="mb-8 text-lg leading-relaxed text-neutral-600">
@@ -149,7 +149,7 @@ export default function ProductDetailPage() {
                             <Truck className="h-5 w-5 text-neutral-400" />
                             <div>
                                 <h4 className="text-sm font-semibold">Free Delivery</h4>
-                                <p className="text-xs text-neutral-500">Orders over $100</p>
+                                <p className="text-xs text-neutral-500">Orders over ₹5000</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-3">

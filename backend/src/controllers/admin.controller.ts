@@ -15,9 +15,9 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             },
             orderBy: { createdAt: 'desc' }
         });
-        const totalSales = orders.reduce((acc, order) => acc + Number(order.total), 0);
+        const totalRevenue = orders.reduce((acc, order) => acc + Number(order.total), 0);
 
-        res.json({ products, orders, totalSales });
+        res.json({ products, orders, totalRevenue });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
@@ -58,11 +58,27 @@ export const checkFaceStatus = async (req: Request, res: Response) => {
             where: { id: userId as string },
             select: { faceData: true }
         });
-        res.json({ hasFaceData: !!user?.faceData });
+        res.json({
+            hasFaceData: !!user?.faceData,
+            faceData: user?.faceData
+        });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const resetFaceData = async (req: Request, res: Response) => {
+    const { userId } = req.body;
+    try {
+        await prisma.customer.update({
+            where: { id: userId },
+            data: { faceData: null }
+        });
+        res.json({ message: 'Face data reset successfully' });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 export const getCategoryReport = async (req: Request, res: Response) => {
     try {

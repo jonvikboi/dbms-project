@@ -16,7 +16,7 @@ import {
 
 export default function ProductsPage() {
     const [search, setSearch] = useState('');
-    const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
+    const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [sortBy, setSortBy] = useState('createdAt');
     const [order, setOrder] = useState<'asc' | 'desc'>('desc');

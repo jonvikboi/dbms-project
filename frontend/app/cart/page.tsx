@@ -59,7 +59,7 @@ export default function CartPage() {
                                         <div className="flex justify-between">
                                             <div>
                                                 <h3 className="font-semibold">{item.name}</h3>
-                                                <p className="text-sm text-neutral-500">${item.price.toFixed(2)}</p>
+                                                <p className="text-sm text-neutral-500">₹{item.price.toFixed(2)}</p>
                                             </div>
                                             <button
                                                 onClick={() => removeItem(item.productId)}
@@ -89,7 +89,7 @@ export default function CartPage() {
                                                     <Plus className="h-3 w-3" />
                                                 </Button>
                                             </div>
-                                            <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                                            <p className="font-bold">₹{(item.price * item.quantity).toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@ export default function CartPage() {
                         <CardContent className="space-y-4">
                             <div className="flex justify-between">
                                 <span className="text-neutral-500">Subtotal</span>
-                                <span>${total.toFixed(2)}</span>
+                                <span>₹{total.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-neutral-500">Shipping</span>
@@ -125,7 +125,7 @@ export default function CartPage() {
                             <Separator />
                             <div className="flex justify-between text-lg font-bold">
                                 <span>Total</span>
-                                <span>${total.toFixed(2)}</span>
+                                <span>₹{total.toFixed(2)}</span>
                             </div>
                             <Link href="/checkout" className="block w-full">
                                 <Button className="w-full" size="lg">

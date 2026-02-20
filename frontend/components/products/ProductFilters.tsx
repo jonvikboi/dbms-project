@@ -106,13 +106,13 @@ export function ProductFilters({
                 <div className="mb-4 flex items-center justify-between">
                     <Label className="text-sm font-semibold">Price Range</Label>
                     <span className="text-xs font-medium text-neutral-500">
-                        ${priceRange[0]} - ${priceRange[1]}
+                        ₹{priceRange[0]} - ₹{priceRange[1]}
                     </span>
                 </div>
                 <Slider
-                    defaultValue={[0, 2000]}
-                    max={2000}
-                    step={10}
+                    defaultValue={[0, 100000]}
+                    max={100000}
+                    step={100}
                     value={priceRange}
                     onValueChange={(value) => setPriceRange(value as [number, number])}
                     className="py-4"

@@ -11,7 +11,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { MapPin, User, Plus, Trash2, CheckCircle2, Loader2 } from 'lucide-react';
+import { MapPin, User, Plus, Trash2, CheckCircle2, Loader2, Star } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     Dialog,
     DialogContent,
@@ -34,7 +35,7 @@ export default function ProfilePage() {
         city: '',
         state: '',
         zipCode: '',
-        country: 'USA',
+        country: 'India',
         isDefault: false
     });
 
@@ -170,6 +171,16 @@ export default function ProfilePage() {
                                                 />
                                             </div>
                                         </div>
+                                        <div className="flex items-center space-x-2 rounded-lg border p-3">
+                                            <Checkbox
+                                                id="default"
+                                                checked={newAddress.isDefault}
+                                                onCheckedChange={(checked) => setNewAddress({ ...newAddress, isDefault: !!checked })}
+                                            />
+                                            <Label htmlFor="default" className="flex items-center gap-2 cursor-pointer">
+                                                <span>Set as Default</span>
+                                            </Label>
+                                        </div>
                                     </div>
                                     <DialogFooter>
                                         <Button
@@ -209,15 +220,33 @@ export default function ProfilePage() {
                                                     <p className="text-sm text-neutral-500">{address.country}</p>
                                                 </div>
                                             </div>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="text-neutral-400 hover:text-red-500"
-                                                onClick={() => deleteAddressMutation.mutate(address.id)}
-                                                disabled={deleteAddressMutation.isPending}
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
+                                            <div className="flex gap-2">
+                                                {!address.isDefault && (
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="text-neutral-400 hover:text-primary"
+                                                        title="Set as Default"
+                                                        onClick={() => {
+                                                            const { id, ...addrData } = address;
+                                                            addressesApi.update(id, { isDefault: true }).then(() => {
+                                                                queryClient.invalidateQueries({ queryKey: ['addresses'] });
+                                                            });
+                                                        }}
+                                                    >
+                                                        <Star className="h-4 w-4" />
+                                                    </Button>
+                                                )}
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-neutral-400 hover:text-red-500"
+                                                    onClick={() => deleteAddressMutation.mutate(address.id)}
+                                                    disabled={deleteAddressMutation.isPending}
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

@@ -30,14 +30,22 @@ export default function Home() {
           Shop by Category
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {['Electronics', 'Fashion', 'Home & Living'].map((category) => (
+          {[
+            { name: 'Electronics', img: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1500&auto=format&fit=crop' },
+            { name: 'Fashion', img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1500&auto=format&fit=crop' },
+            { name: 'Home & Living', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1500&auto=format&fit=crop' }
+          ].map((category) => (
             <Link
-              key={category}
-              href={`/products?category=${category.toLowerCase()}`}
-              className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100 transition-transform hover:scale-[1.02]"
+              key={category.name}
+              href={`/products?category=${category.name.toLowerCase()}`}
+              className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-900 transition-transform hover:scale-[1.02]"
             >
-              <div className="flex h-full items-center justify-center">
-                <h3 className="text-2xl font-medium">{category}</h3>
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-60"
+                style={{ backgroundImage: `url(${category.img})` }}
+              />
+              <div className="flex h-full items-center justify-center relative z-10">
+                <h3 className="text-2xl font-medium text-white tracking-wide shadow-black drop-shadow-md">{category.name}</h3>
               </div>
             </Link>
           ))}

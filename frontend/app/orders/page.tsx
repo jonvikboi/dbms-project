@@ -74,7 +74,7 @@ export default function OrdersPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-neutral-500 uppercase font-bold tracking-wider mb-1">Total Amount</p>
-                                            <p className="text-sm font-bold">${Number(order.total).toFixed(2)}</p>
+                                            <p className="text-sm font-bold">₹{Number(order.total).toFixed(2)}</p>
                                         </div>
                                         <div className="hidden sm:block">
                                             <p className="text-xs text-neutral-500 uppercase font-bold tracking-wider mb-1">Order ID</p>
@@ -104,9 +104,9 @@ export default function OrdersPage() {
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <h4 className="font-semibold text-sm truncate">{item.product.name}</h4>
-                                                <p className="text-xs text-neutral-500">Qty: {item.quantity} · ${Number(item.price).toFixed(2)} each</p>
+                                                <p className="text-xs text-neutral-500">Qty: {item.quantity} · ₹{Number(item.price).toFixed(2)} each</p>
                                             </div>
-                                            <p className="font-bold text-sm ml-auto">${(Number(item.price) * item.quantity).toFixed(2)}</p>
+                                            <p className="font-bold text-sm ml-auto">₹{(Number(item.price) * item.quantity).toFixed(2)}</p>
                                         </div>
                                     ))}
                                 </div>

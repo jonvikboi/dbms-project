@@ -17,6 +17,10 @@ export const adminService = {
         const response = await apiClient.post('/admin/face/register', { userId, faceData });
         return response.data;
     },
+    resetFace: async (userId: string) => {
+        const response = await apiClient.post('/admin/face/reset', { userId });
+        return response.data;
+    },
     getCategoryReport: async () => {
         const response = await apiClient.get('/admin/reports');
         return response.data;

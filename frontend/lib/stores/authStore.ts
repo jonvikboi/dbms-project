@@ -25,17 +25,26 @@ export const useAuthStore = create<AuthState>()(
             customer: null,
             token: null,
             isAuthenticated: false,
-            setAuth: (customer, token) => {
+            setAuth: (customer: Customer, token: string) => {
                 localStorage.setItem('token', token);
                 localStorage.setItem('customer', JSON.stringify(customer));
                 set({ customer, token, isAuthenticated: true });
             },
             logout: () => {
+                // Clear all session related data
                 localStorage.removeItem('token');
                 localStorage.removeItem('customer');
+                localStorage.removeItem('cart-storage');
+                localStorage.removeItem('auth-storage');
+
                 set({ customer: null, token: null, isAuthenticated: false });
+
+                // Force a clean state refresh to home
+                if (typeof window !== 'undefined') {
+                    window.location.href = '/';
+                }
             },
-            updateCustomer: (customer) => {
+            updateCustomer: (customer: Customer) => {
                 localStorage.setItem('customer', JSON.stringify(customer));
                 set({ customer });
             },

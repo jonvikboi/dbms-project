@@ -24,6 +24,7 @@ export default function AdminPage() {
     const [categoryReport, setCategoryReport] = useState<any[]>([]);
     const [stockInputs, setStockInputs] = useState<Record<string, number>>({});
     const [dashError, setDashError] = useState<string | null>(null);
+    const [storedFaceData, setStoredFaceData] = useState<Float32Array | null>(null);
 
     useEffect(() => {
         if (!isAuthenticated || !customer) {
@@ -45,6 +46,11 @@ export default function AdminPage() {
                 const status = await adminService.checkFaceStatus(customer.id);
                 setFaceStatus(status.hasFaceData ? 'verify' : 'register');
                 setFaceMessage(status.hasFaceData ? 'Please verify your face.' : 'First time: Register your face.');
+
+                if (status.faceData) {
+                    const parsed = JSON.parse(status.faceData);
+                    setStoredFaceData(new Float32Array(parsed));
+                }
 
                 // Load Models
                 const MODEL_URL = '/models';
@@ -103,7 +109,9 @@ export default function AdminPage() {
         setFaceMessage('Scanning...');
 
         try {
-            const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+            // Use larger input size for better accuracy
+            const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 512, scoreThreshold: 0.5 });
+            const detection = await faceapi.detectSingleFace(videoRef.current, options)
                 .withFaceLandmarks()
                 .withFaceDescriptor();
 
@@ -122,11 +130,26 @@ export default function AdminPage() {
                 setFaceMessage('Registration Complete!');
                 fetchDashboard();
             } else {
-                // Verification: In a real app, send descriptor to backend.
-                // Here, we simulate successful verification if face is detected.
-                stopVideo();
-                setFaceStatus('verified');
-                fetchDashboard();
+                // Verification: Compare current descriptor with stored one
+                if (!storedFaceData) {
+                    setFaceMessage('System error: Stored face data missing.');
+                    setVerifying(false);
+                    return;
+                }
+
+                const distance = faceapi.euclideanDistance(detection.descriptor, storedFaceData);
+                console.log('Face Distance:', distance);
+
+                // Standard threshold is 0.6, lower is stricter. Let's try 0.5 for better security.
+                if (distance < 0.5) {
+                    stopVideo();
+                    setFaceStatus('verified');
+                    setFaceMessage('Identity Verified!');
+                    fetchDashboard();
+                } else {
+                    setFaceMessage(`Identity mismatch (dist: ${distance.toFixed(2)}). Please try again.`);
+                    setVerifying(false);
+                }
             }
         } catch (error: any) {
             console.error(error);
@@ -175,6 +198,19 @@ export default function AdminPage() {
         }
     };
 
+    const handleResetFace = async () => {
+        if (!confirm('Are you sure you want to delete your face fingerprint? You will need to re-register.')) return;
+        try {
+            await adminService.resetFace(customer!.id);
+            setFaceStatus('register');
+            setFaceMessage('Face data reset. Please re-register.');
+            setStoredFaceData(null);
+            startVideo();
+        } catch (e) {
+            alert('Failed to reset face data');
+        }
+    };
+
     if (loading) return <div className="flex h-screen items-center justify-center"><Loader2 className="animate-spin" /></div>;
 
     if (faceStatus !== 'verified') {
@@ -202,7 +238,12 @@ export default function AdminPage() {
 
     return (
         <div className="container mx-auto py-8 px-4 space-y-8">
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+                <Button variant="outline" size="sm" onClick={handleResetFace} className="text-xs text-red-500 hover:text-red-600">
+                    Reset Face Fingerprint
+                </Button>
+            </div>
 
             {dashboardData ? (
                 <div className="space-y-8">
@@ -232,7 +273,7 @@ export default function AdminPage() {
                                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold text-green-600">${dashboardData.totalSales.toFixed(2)}</div>
+                                <div className="text-2xl font-bold text-green-600">₹{Number(dashboardData.totalRevenue || 0).toLocaleString()}</div>
                             </CardContent>
                         </Card>
                     </div>
@@ -293,12 +334,12 @@ export default function AdminPage() {
                                                 {order.orderItems.map((item: any) => (
                                                     <div key={item.id} className="flex justify-between text-xs">
                                                         <span>{item.product.name} x{item.quantity}</span>
-                                                        <span>${item.price}</span>
+                                                        <span>₹{Number(item.price || 0).toLocaleString()}</span>
                                                     </div>
                                                 ))}
                                                 <div className="flex justify-between font-bold text-sm pt-1 border-t border-dashed">
                                                     <span>Total</span>
-                                                    <span>${order.total}</span>
+                                                    <span>₹{Number(order.total || 0).toLocaleString()}</span>
                                                 </div>
                                             </div>
 
@@ -352,7 +393,7 @@ export default function AdminPage() {
                                         <p className="font-bold text-primary">{cat.cat_name}</p>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">Value:</span>
-                                            <span className="font-semibold text-green-600">${Number(cat.total_value).toFixed(2)}</span>
+                                            <span className="font-semibold text-green-600">₹{Number(cat.total_value).toLocaleString()}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">Items:</span>
