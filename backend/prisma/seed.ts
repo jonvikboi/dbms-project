@@ -55,7 +55,7 @@ async function main() {
                 description: 'Versatile gaming headset designed for comfort and audio precision.',
                 price: 99.99,
                 stock: 50,
-                imageUrl: 'https://images.unsplash.com/photo-1546435770-a3e426ff473c?q=80&w=1470&auto=format&fit=crop',
+                imageUrl: 'https://images.unsplash.com/photo-1612444530582-fc66183b16f7?q=80&w=1500&auto=format&fit=crop',
                 categoryId: electronics.id
             }
         }),
@@ -101,7 +101,7 @@ async function main() {
                 description: 'Hand-crafted ceramic vase with a matte finish.',
                 price: 45.00,
                 stock: 25,
-                imageUrl: 'https://images.unsplash.com/photo-1581333100576-b73bbebd3c2e?q=80&w=1374&auto=format&fit=crop',
+                imageUrl: 'https://images.unsplash.com/photo-1578500484748-4852e824cd26?q=80&w=1500&auto=format&fit=crop',
                 categoryId: homeLiving.id
             }
         })
